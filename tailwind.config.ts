@@ -7,11 +7,14 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    backgroundImage: {
+      'car_logo': "url('../img/logo.png')",
+      'car_home': "url('../img/home.png')",
+    },
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      colors: {
+      'primary-red': '#F3133C',
+      'primary-gray': '#2D2D37',
       },
     },
   },
