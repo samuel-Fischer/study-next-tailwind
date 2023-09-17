@@ -11,10 +11,27 @@ type Inputs = {
 };
 
 export default function Cadastro() {
-  const { register, handleSubmit } = useForm<Inputs>();
+  const { register, handleSubmit, reset } = useForm<Inputs>({
+    defaultValues: {
+      quilometragem: 100000,
+    },
+  });
 
-  function onSubmit(data: Inputs) {
+  async function onSubmit(data: Inputs) {
     console.log(data);
+    const carros = await fetch("http://localhost:3004/carros", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ...data }),
+    });
+    if (carros.status === 201) {
+      alert("Cadastro realizado com sucesso!");
+      reset();
+    } else {
+      alert("Erro ao cadastrar!");
+    }
   }
 
   return (
@@ -27,7 +44,7 @@ export default function Cadastro() {
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-8">
-          <div className="sm:col-span-3">
+          <div className="col-span-3">
             <label className="marca">
               <span className="block text-sm font-medium text-slate-700">
                 Marca/modelo do veiculo:
@@ -35,20 +52,21 @@ export default function Cadastro() {
               <input
                 id="marca"
                 type="text"
+                placeholder="Ex: Fiat Uno"
                 className="mt-1 w-full px-3 py-2 max-lg bg-slate-100 border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
       focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500
       disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-      invalid:border-pink-500 invalid:text-pink-600
+      invalid:border-pink-500 invalid:text-pink-600 valid:border-green-500 valid:text-green-600
       focus:invalid:border-pink-500 focus:invalid:ring-pink-500
       "
                 {...register("marca", { required: true })}
               />
             </label>
           </div>
-          <div className="sm:col-span-3">
+          <div className="sm:col-span-2">
             <label className="quilometragem">
               <span className="block text-sm font-medium text-slate-700">
-                Quilometragem do veiculo:
+                Quilometragem:
               </span>
               <input
                 id="quilometragem"
@@ -56,28 +74,28 @@ export default function Cadastro() {
                 className="mt-1 w-full px-3 py-2 max-lg bg-slate-100 border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
       focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500
       disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-      invalid:border-pink-500 invalid:text-pink-600
+      invalid:border-pink-500 invalid:text-pink-600 valid:border-green-500 valid:text-green-600
       focus:invalid:border-pink-500 focus:invalid:ring-pink-500
       "
                 {...register("quilometragem", { required: true })}
               />
             </label>
           </div>
-          <div className="sm:col-span-2">
+          <div className="col-span-3">
             <label className="ano">
               <span className="block text-sm font-medium text-slate-700">
-                Ano do veiculo:
+                Preço desejado:
               </span>
               <input
-                id="ano"
-                type="date"
-                className="mt-1 w-full px-3 py-2 max-lg bg-slate-100 border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+                id="preco"
+                type="number"
+                className="mt-1 w-[100] px-3 py-2 max-lg bg-slate-100 border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
       focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500
       disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-      invalid:border-pink-500 invalid:text-pink-600
+      invalid:border-pink-500 invalid:text-pink-600 valid:border-green-500 valid:text-green-600
       focus:invalid:border-pink-500 focus:invalid:ring-pink-500
       "
-                {...register("ano", { required: true })}
+                {...register("preco", { required: true })}
               />
             </label>
           </div>
@@ -119,19 +137,34 @@ export default function Cadastro() {
         <div className="sm:col-span-2 mt-5">
           <label className="ano">
             <span className="block text-sm font-medium text-slate-700">
-              Preço desejado:
+              Ano do veiculo:
             </span>
-            <input
-              id="preco"
-              type="number"
-              className="mt-1 w-[100] px-3 py-2 max-lg bg-slate-100 border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+            <select
+              className="valid:border-green-500 valid:text-green-600"
+              id="ano"
+              {...register("ano", { required: true })}
+            >
+              <option value="2015">2015</option>
+              <option value="2016">2016</option>
+              <option value="2017">2017</option>
+              <option value="2018">2018</option>
+              <option value="2019">2019</option>
+              <option value="2020">2020</option>
+              <option value="2021">2021</option>
+              <option value="2022">2022</option>
+              <option value="2023">2023</option>
+            </select>
+            {/* <input
+                id="ano"
+                type="date"
+                className="mt-1 w-full px-3 py-2 max-lg bg-slate-100 border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
       focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500
       disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
       invalid:border-pink-500 invalid:text-pink-600
       focus:invalid:border-pink-500 focus:invalid:ring-pink-500
       "
-              {...register("preco", { required: true })}
-            />
+                {...register("ano", { required: true })}
+              /> */}
           </label>
         </div>
 
@@ -152,12 +185,18 @@ export default function Cadastro() {
                 {...register("sobre")}
               />
             </div>
-            <p className="mt-3 text-sm leading-6 text-gray-600">
-              Detalhe sobre qualquer acidente que você possa ter se envolvido
-              com este veiculo.
+            <p className="text-sm leading-6 text-gray-600 ms-1">
+              Detalhe sobre qualquer acidente que este veiculo possa ter se
+              envolvido.
             </p>
           </div>
         </div>
+        <button type="submit" className="" value="Enviar">
+          Enviar
+        </button>
+        <button type="button" className="" value="Limpar" onClick={() => reset()}>
+          Limpar
+        </button>
       </form>
     </div>
   );
