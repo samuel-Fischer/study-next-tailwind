@@ -63,7 +63,7 @@ export default function Cadastro() {
               />
             </label>
           </div>
-          <div className="sm:col-span-2">
+          <div className="col-span-2">
             <label className="quilometragem">
               <span className="block text-sm font-medium text-slate-700">
                 Quilometragem:
