@@ -14,15 +14,21 @@ export function Header() {
           <div className="flex items-center gap-14">
             <ul className="flex items-center gap-12">
               <li>
-                <ItemMenu name="Comprar" />
+                <ItemMenu name="Listagem" />
+              </li>
+              <li>
+                <ItemMenu name="Graficos" />
               </li>
               <li>
                 <Link href={"/"}>
-                <Image src={Logo} alt="Logo" width={150} />
+                  <Image src={Logo} alt="Logo" width={150} />
                 </Link>
               </li>
               <li>
                 <ItemMenu name="Vender" />
+              </li>
+              <li>
+                <ItemMenu name="Comprar" />
               </li>
             </ul>
           </div>
