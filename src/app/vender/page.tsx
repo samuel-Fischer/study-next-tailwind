@@ -1,19 +1,26 @@
 "use client";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
 type Inputs = {
   marca: string;
   quilometragem: number;
-  ano: Date;
+  ano: number;
   preco: number;
   sobre: string;
   imagem: string;
 };
 
+interface Ano {
+  id: number;
+  ano: number;
+}
+
 export default function Cadastro() {
   const { register, handleSubmit, reset } = useForm<Inputs>({
     defaultValues: {
       quilometragem: 100000,
+      preco: 50000.00,
     },
   });
 
@@ -33,6 +40,26 @@ export default function Cadastro() {
       alert("Erro ao cadastrar!");
     }
   }
+
+  const [anos, setAnos] = useState<Ano[]>([]); // Estado para armazenar os anos.
+
+  // Função para buscar os anos.
+  async function getAnos() {
+    try {
+      const response = await fetch("http://localhost:3004/anos");
+      if (!response.ok) {
+        throw new Error("Erro ao buscar anos.");
+      }
+      const anosData: Ano[] = await response.json();
+      setAnos(anosData); // Atualiza o estado com os anos buscados.
+    } catch (error) {
+      console.error("Erro ao buscar anos:", error);
+    }
+  }
+
+  useEffect(() => {
+    getAnos();
+  }, []);
 
   return (
     <div className="container mx-auto px-80">
@@ -102,23 +129,23 @@ export default function Cadastro() {
         </div>
 
         <div className="sm:col-span-2">
-            <label className="imagem">
-              <span className="block text-sm font-medium text-slate-700">
-                Insira o link para a foto do veiculo:
-              </span>
-              <input
-                id="imagem"
-                type="link"
-                className="mt-1 w-full px-3 py-2 max-lg bg-slate-100 border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+          <label className="imagem">
+            <span className="block text-sm font-medium text-slate-700">
+              Insira o link para a foto do veiculo:
+            </span>
+            <input
+              id="imagem"
+              type="link"
+              className="mt-1 w-full px-3 py-2 max-lg bg-slate-100 border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
       focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500
       disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
       invalid:border-pink-500 invalid:text-pink-600 valid:border-green-500 valid:text-green-600
       focus:invalid:border-pink-500 focus:invalid:ring-pink-500
       "
-                {...register("imagem")}
-              />
-            </label>
-          </div>
+              {...register("imagem")}
+            />
+          </label>
+        </div>
 
         {/* <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-12 col-span-full">
           <div className="sm:col-span-12">
@@ -163,15 +190,12 @@ export default function Cadastro() {
               id="ano"
               {...register("ano", { required: true })}
             >
-              <option value="2015">2015</option>
-              <option value="2016">2016</option>
-              <option value="2017">2017</option>
-              <option value="2018">2018</option>
-              <option value="2019">2019</option>
-              <option value="2020">2020</option>
-              <option value="2021">2021</option>
-              <option value="2022">2022</option>
-              <option value="2023">2023</option>
+
+              {anos.map((ano) => (
+                <option key={ano.id} value={ano.ano}>
+                  {ano.ano}
+                </option>
+              ))}
             </select>
             {/* <input
                 id="ano"
