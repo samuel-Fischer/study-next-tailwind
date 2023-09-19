@@ -46,7 +46,20 @@ export default function Listagem() {
 
   function filtrarCarros(data: any) {
     async function getCarros() {
-      const response = await fetch("http://localhost:3004/carros?marca_like=" + data.pesq);
+      const response = await fetch(
+        "http://localhost:3004/carros?marca_like=" + data.pesq
+      );
+      const dados = await response.json();
+      setCarros(dados);
+    }
+    getCarros();
+  }
+
+  function ordenarCarros(data: any) {
+    async function getCarros() {
+      const response = await fetch(
+        "http://localhost:3004/carros?_sort=preco&_order=asc"
+      );
       const dados = await response.json();
       setCarros(dados);
     }
@@ -82,9 +95,12 @@ export default function Listagem() {
             <p>Carros a venda:</p>
           </div>
           <div>
-            <Pesquisa filtrarCarros={filtrarCarros} mostrarTodos={mostrarTodos} />
+            <Pesquisa
+              filtrarCarros={filtrarCarros}
+              orderByPreco={ordenarCarros}
+              mostrarTodos={mostrarTodos}
+            />
           </div>
-
         </Container>
         <div className="flex flex-auto mx-auto">
           <table className="table-aut mx-auto border-spacing-2 border-collapse border border-slate-300">
