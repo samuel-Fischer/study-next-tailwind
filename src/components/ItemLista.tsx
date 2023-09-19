@@ -26,7 +26,7 @@ const ItemLista: React.FC<Props> = (props) => {
   return (
     <tr key={props.carro.id}>
       <td>
-        <img className="w-40"
+        <img className="w-40 h-40"
           src={props.carro.imagem}
           alt={`Foto do carro ${props.carro.imagem}`}
         />
