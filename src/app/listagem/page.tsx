@@ -55,7 +55,7 @@ export default function Listagem() {
     getCarros();
   }
 
-  function ordenarCarros(data: any) {
+  function ordenarCarros() {
     async function getCarros() {
       const response = await fetch(
         "http://localhost:3004/carros?_sort=preco&_order=asc"
