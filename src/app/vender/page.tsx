@@ -7,7 +7,7 @@ type Inputs = {
   ano: Date;
   preco: number;
   sobre: string;
-  "file-upload": string;
+  imagem: string;
 };
 
 export default function Cadastro() {
@@ -101,7 +101,26 @@ export default function Cadastro() {
           </div>
         </div>
 
-        <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-12 col-span-full">
+        <div className="sm:col-span-2">
+            <label className="imagem">
+              <span className="block text-sm font-medium text-slate-700">
+                Insira o link para a foto do veiculo:
+              </span>
+              <input
+                id="imagem"
+                type="link"
+                className="mt-1 w-full px-3 py-2 max-lg bg-slate-100 border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+      focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500
+      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
+      invalid:border-pink-500 invalid:text-pink-600 valid:border-green-500 valid:text-green-600
+      focus:invalid:border-pink-500 focus:invalid:ring-pink-500
+      "
+                {...register("imagem")}
+              />
+            </label>
+          </div>
+
+        {/* <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-12 col-span-full">
           <div className="sm:col-span-12">
             <label
               htmlFor="cover-photo"
@@ -132,7 +151,7 @@ export default function Cadastro() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className="sm:col-span-2 mt-5">
           <label className="ano">
@@ -191,12 +210,23 @@ export default function Cadastro() {
             </p>
           </div>
         </div>
-        <button type="submit" className="" value="Enviar">
-          Enviar
-        </button>
-        <button type="button" className="" value="Limpar" onClick={() => reset()}>
-          Limpar
-        </button>
+        <div className="mt-6 flex items-center justify-start gap-x-6">
+          <button
+            type="submit"
+            className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            value="Enviar"
+          >
+            Enviar
+          </button>
+          <button
+            type="button"
+            className="text-sm font-semibold leading-6 text-gray-900"
+            value="Limpar"
+            onClick={() => reset()}
+          >
+            Limpar
+          </button>
+        </div>
       </form>
     </div>
   );
