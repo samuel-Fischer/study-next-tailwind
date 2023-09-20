@@ -31,7 +31,7 @@ export default function Cadastro() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ ...data }),
+      body: JSON.stringify({ ...data, preco: Number(data.preco), quilometragem: Number(data.quilometragem)}),
     });
     if (carros.status === 201) {
       alert("Cadastro realizado com sucesso!");
