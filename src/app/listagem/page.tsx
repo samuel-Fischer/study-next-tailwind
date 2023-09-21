@@ -102,16 +102,16 @@ export default function Listagem() {
             />
           </div>
         </Container>
-        <div className="flex flex-auto mx-auto">
+        <div className="flex flex-auto mx-auto text-center">
           <table className="table-aut mx-auto border-spacing-2 border-collapse border border-slate-300">
-            <thead className=" bg-slate-100 text-left border border-slate-300 border-spacing-2 text-lg">
+            <thead className=" bg-slate-100 text-left border border-slate-300 border-spacing-2 text-lg text-center">
               <tr>
-                <th className="border border-slate-300 p-3">Foto</th>
-                <th className="border border-slate-300 px-2">Marca</th>
-                <th className="border border-slate-300 px-2">Ano</th>
+                <th className="border border-slate-300 p-3"style={{width: '10%'}}>Foto</th>
+                <th className="border border-slate-300 px-2" style={{width: '10%'}}>Marca</th>
+                <th className="border border-slate-300 px-2" style={{width: '7%'}}>Ano</th>
                 <th className="border border-slate-300 px-2">Quilometragem</th>
                 <th className="border border-slate-300 px-2">Preço</th>
-                <th className="border border-slate-300 px-2">Danos</th>
+                <th className="border border-slate-300 px-2" style={{width: '18%'}}>Danos</th>
                 <th className="border border-slate-300 px-2">Editar</th>
               </tr>
             </thead>
