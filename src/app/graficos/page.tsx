@@ -26,7 +26,6 @@ export default function Grafico() {
           throw new Error("Erro na solicitação à API");
         }
         const carrosData: Carro[] = await response.json();
-        console.log("Dados da API:", carrosData);
 
         const carrosPorAno: { [ano: string]: number } = {};
 
@@ -53,7 +52,7 @@ export default function Grafico() {
       <Container>
         <div className="mt-5">
           <h1 className="font-bold text-primary-gray text-2xl">
-            Grafico Anal:
+            Quantidade de Carros por Ano
           </h1>
         </div>
       </Container>
