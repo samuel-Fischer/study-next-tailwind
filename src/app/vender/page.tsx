@@ -17,10 +17,12 @@ interface Ano {
 }
 
 export default function Cadastro() {
+  const [anos, setAnos] = useState<Ano[]>([]);
   const { register, handleSubmit, reset } = useForm<Inputs>({
     defaultValues: {
       quilometragem: 100000,
       preco: 50000.00,
+      imagem: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.vecteezy.com%2Fsystem%2Fresources%2Fpreviews%2F000%2F623%2F239%2Foriginal%2Fauto-car-logo-template-vector-icon.jpg",
     },
   });
 
@@ -41,9 +43,6 @@ export default function Cadastro() {
     }
   }
 
-  const [anos, setAnos] = useState<Ano[]>([]); // Estado para armazenar os anos.
-
-  // Função para buscar os anos.
   async function getAnos() {
     try {
       const response = await fetch("http://localhost:3004/anos");
@@ -190,7 +189,6 @@ export default function Cadastro() {
               id="ano"
               {...register("ano", { required: true })}
             >
-
               {anos.map((ano) => (
                 <option key={ano.id} value={ano.ano}>
                   {ano.ano}
