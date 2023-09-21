@@ -1,10 +1,16 @@
 "use client";
 import { useParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
+interface Ano {
+  id: number;
+  ano: number;
+}
+
 export default function Alteracao() {
+  const [anos, setAnos] = useState<Ano[]>([]);
   const params = useParams();
   const { register, handleSubmit, reset } = useForm();
   const router = useRouter();
@@ -31,7 +37,7 @@ export default function Alteracao() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({ ...data, preco: Number(data.preco), quilometragem: Number(data.quilometragem)}),
     });
     if (carro.ok) {
       alert("Carro alterado com sucesso!");
@@ -39,6 +45,23 @@ export default function Alteracao() {
       alert("Erro ao alterar o carro!");
     }
   }
+
+  async function getAnos() {
+    try {
+      const response = await fetch("http://localhost:3004/anos");
+      if (!response.ok) {
+        throw new Error("Erro ao buscar anos.");
+      }
+      const anosData: Ano[] = await response.json();
+      setAnos(anosData); // Atualiza o estado com os anos buscados.
+    } catch (error) {
+      console.error("Erro ao buscar anos:", error);
+    }
+  }
+
+  useEffect(() => {
+    getAnos();
+  }, []);
 
   return (
     <div className="container mx-auto px-80">
@@ -133,20 +156,16 @@ export default function Alteracao() {
                 Ano do veiculo:
               </span>
               <select
-                className="valid:border-green-500 valid:text-green-600"
-                id="ano"
-                {...register("ano", { required: true })}
-              >
-                <option value="2015">2015</option>
-                <option value="2016">2016</option>
-                <option value="2017">2017</option>
-                <option value="2018">2018</option>
-                <option value="2019">2019</option>
-                <option value="2020">2020</option>
-                <option value="2021">2021</option>
-                <option value="2022">2022</option>
-                <option value="2023">2023</option>
-              </select>
+              className="valid:border-green-500 valid:text-green-600"
+              id="ano"
+              {...register("ano", { required: true })}
+            >
+              {anos.map((ano) => (
+                <option key={ano.id} value={ano.ano}>
+                  {ano.ano}
+                </option>
+              ))}
+            </select>
             </label>
           </div>
         </div>
