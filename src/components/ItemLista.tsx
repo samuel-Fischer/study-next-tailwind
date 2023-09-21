@@ -35,13 +35,13 @@ const ItemLista: React.FC<Props> = (props) => {
     <tr key={props.carro.id}>
       <td>
         <img
-          className="w-40 h-40"
+          className="w-40 h-40 "
           src={props.carro.imagem}
           alt={`Foto do carro ${props.carro.imagem}`}
         />
       </td>
       <td className="border border-slate-300">{props.carro.marca}</td>
-      <td className="border border-slate-300">{props.carro.ano}</td>
+      <td className="border border-slate-300 text-center">{props.carro.ano}</td>
       <td className="border border-slate-300 text-">
         {props.carro.quilometragem} Km
       </td>
@@ -58,6 +58,7 @@ const ItemLista: React.FC<Props> = (props) => {
           <FileEdit />
         </button>
       </td>
+          <td className="border border-slate-300">{props.carro.sobre}</td>
       <td className="border border-slate-300">
         <button
           className="text-slate-700"
