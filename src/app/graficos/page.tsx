@@ -6,7 +6,7 @@ import { Container } from "@/components/Container";
 // Defina uma interface para o tipo de dados dos carros
 interface Carro {
   marca: string;
-  ano: string;
+  ano_id: number;
   imagem: string;
   quilometragem: string;
   preco: string;
@@ -15,7 +15,7 @@ interface Carro {
 }
 
 export default function Grafico() {
-  const [carrosPorAno, setCarrosPorAno] = useState<{ [ano: string]: number }>({});
+  const [carrosPorAno, setCarrosPorAno] = useState<{ [ano_id: number]: number }>({});
 
   useEffect(() => {
     // Função para buscar os dados e atualizar o estado
@@ -27,10 +27,10 @@ export default function Grafico() {
         }
         const carrosData: Carro[] = await response.json();
 
-        const carrosPorAno: { [ano: string]: number } = {};
+        const carrosPorAno: { [ano_id: number]: number } = {};
 
         carrosData.forEach((carro) => {
-          const anoCarro = carro.ano;
+          const anoCarro = carro.ano_id;
           if (anoCarro in carrosPorAno) {
             carrosPorAno[anoCarro]++;
           } else {
@@ -62,8 +62,8 @@ export default function Grafico() {
         height="400px"
         data={[
           ["Ano", "Quantidade", { role: "style" }],
-          ...Object.entries(carrosPorAno).map(([ano, quantidade]) => [
-            ano,
+          ...Object.entries(carrosPorAno).map(([ano_id, quantidade]) => [
+            ano_id,
             quantidade,
             "blue", // Cor das barras (pode ser alterada)
           ]),

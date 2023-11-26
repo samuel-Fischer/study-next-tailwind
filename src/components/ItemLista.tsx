@@ -9,7 +9,7 @@ interface Props {
     id: number;
     imagem: string;
     marca: string;
-    ano: number;
+    ano_id: number;
     quilometragem: number;
     preco: number;
     sobre: string;
@@ -41,7 +41,7 @@ const ItemLista: React.FC<Props> = (props) => {
         />
       </td>
       <td className="border border-slate-300">{props.carro.marca}</td>
-      <td className="border border-slate-300 text-center">{props.carro.ano}</td>
+      <td className="border border-slate-300 text-center">{props.carro.ano_id}</td>
       <td className="border border-slate-300 text-">
         {props.carro.quilometragem} Km
       </td>
