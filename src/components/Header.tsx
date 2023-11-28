@@ -28,7 +28,7 @@ export function Header() {
                 <ItemMenu name="Vender" />
               </li>
               <li>
-                <ItemMenu name="Comprar" />
+                <ItemMenu name="Propostas" />
               </li>
             </ul>
           </div>
