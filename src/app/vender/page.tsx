@@ -27,8 +27,6 @@ export default function Cadastro() {
   });
 
   async function onSubmit(data: Inputs) {
-    console.log(data);
-    console.log(typeof data.ano_id);
     const carros = await fetch("http://localhost:3004/carros", {
       method: "POST",
       headers: {
