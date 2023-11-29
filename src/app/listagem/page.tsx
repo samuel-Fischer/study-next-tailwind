@@ -29,25 +29,45 @@ export default function Listagem() {
     setCarros(novosCarros);
   }
 
+  async function toggleDestaque(id: number, destaque: boolean) {
+    try {
+      await fetch(`http://localhost:3004/carros/destaque/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ destaque }),
+      });
+
+      // Atualize a lista de carros após a alteração do destaque
+      const response = await fetch("http://localhost:3004/carros");
+      const data = await response.json();
+      setCarros(data);
+    } catch (error) {
+      console.error("Erro ao alterar destaque:", error);
+    }
+  }
+
   const Listagem =
-    carros.length > 0 ? (
-      carros.map((carro) => (
-        <ItemLista
-          key={carro.id}
-          carro={carro}
-          exclusao={() => excluirCarro(carro.id)}
-          alteracao={() => router.push(`/altera/${carro.id}`)}
-          consulta={() => router.push(`/consulta/${carro.id}`)}
-        />
-      ))
-    ) : (
-      <p>Nenhum carro disponível.</p>
-    );
+  carros.length > 0 ? (
+    carros.map((carro) => (
+      <ItemLista
+        key={carro.id}
+        carro={carro}
+        exclusao={() => excluirCarro(carro.id)}
+        alteracao={() => router.push(`/altera/${carro.id}`)}
+        consulta={() => router.push(`/consulta/${carro.id}`)}
+        toggleDestaque={toggleDestaque} // Certifique-se de que esta propriedade está sendo passada
+      />
+    ))
+  ) : (
+    <p>Nenhum carro disponível.</p>
+  );
 
   function filtrarCarros(data: any) {
     async function getCarros() {
       const response = await fetch(
-        "http://localhost:3004/carros?marca_like=" + data.pesq
+        "http://localhost:3004/carros/marcas/" + data.pesq
       );
       const dados = await response.json();
       setCarros(dados);
@@ -58,7 +78,7 @@ export default function Listagem() {
   function ordenarCarros() {
     async function getCarros() {
       const response = await fetch(
-        "http://localhost:3004/carros?_sort=preco&_order=asc"
+        "http://localhost:3004/carros/ordemPreco"
       );
       const dados = await response.json();
       setCarros(dados);

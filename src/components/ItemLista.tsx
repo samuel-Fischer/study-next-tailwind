@@ -1,10 +1,11 @@
-import { FileEdit, Trash2 } from "lucide-react";
+import { FileEdit, Trash2, Star } from "lucide-react";
 import { MouseEventHandler, useState } from "react";
 import { Modal } from "./Modal";
 
 interface Props {
   alteracao: MouseEventHandler<HTMLButtonElement> | undefined;
   exclusao(id: any): unknown;
+  toggleDestaque: (id: number, destaque: boolean) => void; // Adicionado
   carro: {
     id: number;
     imagem: string;
@@ -13,6 +14,7 @@ interface Props {
     quilometragem: number;
     preco: number;
     sobre: string;
+    destaque: boolean; // Adicionado
   };
 }
 
@@ -50,16 +52,20 @@ const ItemLista: React.FC<Props> = (props) => {
         <button
           className="text-slate-700 ms-2"
           title="Editar preco"
-          onClick={() => {
-            console.log("ID do produto:", props.carro.id); // Adicione este log
-            handleEditarPrecoClick(props.carro.id); // Chame a função com o ID do produto
-          }}
+          onClick={() => handleEditarPrecoClick(props.carro.id)}
         >
           <FileEdit />
         </button>
       </td>
-          <td className="border border-slate-300">{props.carro.sobre}</td>
+      <td className="border border-slate-300">{props.carro.sobre}</td>
       <td className="border border-slate-300">
+        <button
+          className="text-slate-700"
+          title={props.carro.destaque ? "Remover destaque" : "Destacar"}
+          onClick={() => props.toggleDestaque(props.carro.id, !props.carro.destaque)}
+        >
+          {props.carro.destaque ? <Star color="#fec700" /> : <Star />}
+        </button>
         <button
           className="text-slate-700"
           title="Editar"
@@ -77,8 +83,6 @@ const ItemLista: React.FC<Props> = (props) => {
       </td>
       {modalVisible && (
         <td colSpan={7}>
-          {" "}
-          {/* Use o colSpan para fazer com que o Modal ocupe todas as colunas */}
           <Modal
             isVisible={modalVisible}
             onClose={() => {
